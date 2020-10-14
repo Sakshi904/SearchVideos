@@ -4,25 +4,22 @@ import SearchBar from "./SearchBar";
 import youtube from "../apis/youTube";
 import VideoList from "./VideoList";
 import VideoDetail from "./VideoDetail";
-const KEY = "AIzaSyA1pPUtdBbzWKRsLXvX_AbM6pl5gCzSXHQ";
+const accesskey = process.env.REACT_APP_YOUTUBE_ACCESS_KEY;
 class App extends React.Component {
   state = { videos: [], SelectedVideo: null };
   componentDidMount() {
     this.onTermSubmit("roses");
   }
-
   onTermSubmit = async (term) => {
-    //  console.log(term);
     const response = await youtube.get("/search", {
       params: {
         q: term,
         part: "snippet",
         maxResults: 5,
         type: "video",
-        key: KEY,
+        key: `${accesskey}`,
       },
     });
-    //console.log(response.data.items);
     this.setState({
       videos: response.data.items,
       SelectedVideo: response.data.items[0],
